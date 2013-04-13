@@ -52,9 +52,13 @@ class NGrams(MRJob):
         yield [word, (year, count)]
     
     def create_ts(self, word, year_counts):
-        timeseries = [(year, counts) for year, counts in year_counts]
-        
-        yield ['{"word": "'+word+'",', '"ts": {'+str(timeseries)+'}']
+        total = 0
+        timeseries = []
+        for year, count in year_counts:
+            total += count
+            timeseries.append("{year: "+str(year)+'", "count": "'+str(count)+'"}')
+            
+            yield ['{"word": "'+word+'", "total": "'+str(total)+'", "mean": "'+str(float(total)/len(timeseries))+'", "ts": {'+str(timeseries)+'}', None]
                
     
     def steps(self):
