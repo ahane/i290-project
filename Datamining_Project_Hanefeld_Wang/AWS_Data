@@ -1,0 +1,2 @@
+All MapReduce jobs are executed on s3://harv-lib-mining/english_books.json
+
